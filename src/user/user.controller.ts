@@ -3,7 +3,9 @@ import { UserService } from "./user.service";
 
 @Controller("/users") // 👈 Route path @Controller is a decorator that defines a controller that will handle requests for a specific route path.
 export class UserController {
-    private userService = new UserService(); // 👈 Create an instance of the UserService class
+   /*  private userService = new UserService(); */ // 👈 Create an instance of the UserService class
+
+    constructor(private userService: UserService) {} // 👈 Dependency injection in the constructor to inject the UserService instance into the UserController class.
 
     @Post() // 👈 Route handler @Post is a decorator that defines a route handler for POST requests to the route path defined by the @Controller decorator. 
     async createUser(@Body() body: {

@@ -1,3 +1,6 @@
+import { Injectable } from "@nestjs/common";
+
+@Injectable() // 👈 Injectable decorator is a class decorator that defines a service, a service is a class that contains business logic and is instantiated within a module.
 export class UserService {
     private users = []; // 👈 users array memory storage
 
