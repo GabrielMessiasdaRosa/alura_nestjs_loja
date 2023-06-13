@@ -23,4 +23,9 @@ export class UserService {
         return this.users[userIndex]; // 👈 return updated user object
 
     }
+
+    async deleteUser(id: string) { // 👈 deleteUser method
+        return this.users = this.users.filter(user => user.id !== id); // 👈 filter out user with id
+    }
+
 }
