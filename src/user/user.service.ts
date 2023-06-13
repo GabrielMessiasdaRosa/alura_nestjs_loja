@@ -16,4 +16,11 @@ export class UserService {
     async emailAlreadyExists(email: UserEntity["email"]) { // 👈 emailAlreadyExists method
         return this.users.some(user => user.email === email); // 👈 return true if email exists in users array
     }
+
+    async updateUser(id: string, user: Partial<UserEntity>) { // 👈 updateUser method
+        const userIndex = this.users.findIndex(user => user.id === id); // 👈 find index of user with id
+        this.users[userIndex] = { ...this.users[userIndex], ...user }; // 👈 update user object with new user object
+        return this.users[userIndex]; // 👈 return updated user object
+
+    }
 }
