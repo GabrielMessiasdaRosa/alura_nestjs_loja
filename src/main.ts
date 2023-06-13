@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { useContainer } from 'class-validator';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -11,6 +12,7 @@ async function bootstrap() {
     forbidNonWhitelisted: true, // 👈 forbidNonWhitelisted option is used to throw an error if any properties that do not have any decorators are present
   }
   ));
+  useContainer(app.select(AppModule), { fallbackOnErrors: true }); // 👈 useContainer method is used to enable dependency injection for class-validator
   await app.listen(8080);
 }
 bootstrap();

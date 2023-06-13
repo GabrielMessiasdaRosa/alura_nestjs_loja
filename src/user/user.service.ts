@@ -18,4 +18,7 @@ export class UserService {
         return this.users; // 👈 return users array
     }
 
+    async emailAlreadyExists(email: string) { // 👈 emailAlreadyExists method
+        return this.users.some(user => user.email === email); // 👈 return true if email exists in users array
+    }
 }
