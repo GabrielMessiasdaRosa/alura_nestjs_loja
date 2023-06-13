@@ -4,7 +4,7 @@ import { ProductEntity } from './product.entity';
 
 @Injectable()
 export class ProductService {
-  private products = [];
+  private products: ProductEntity[] = [];
 
   async createProduct(product: ProductEntity) {
     this.products.push(product);
