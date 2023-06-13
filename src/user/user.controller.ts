@@ -3,6 +3,7 @@ import { UserService } from "./user.service";
 import { CreateUserDto } from "./dto/create-user.dto";
 import { UserEntity } from "./user.entity";
 import { v4 as uuid } from "uuid";
+import { ListUserDto } from "./dto/list-user.dto";
 @Controller("/users") // 👈 Route path @Controller is a decorator that defines a controller that will handle requests for a specific route path.
 export class UserController {
    /*  private userService = new UserService(); */ // 👈 Create an instance of the UserService class
@@ -21,15 +22,18 @@ export class UserController {
 
         this.userService.createUser(userEntity);
         return { // 👈 return user object;
-            id: userEntity.id,
+            user: new ListUserDto(userEntity.id, userEntity.name), // 👈 return a new ListUserDto object with the id and name properties of the userEntity object
             message: "User created successfully",
         } 
     }
 
     @Get()
     async getUsers() {
-        // get users
-        return this.userService.getUsers(); // 👈 Response 
+        const savedUsers = await this.userService.getUsers(); // 👈 Call the getUsers method of the UserService class and assign the result to the savedUsers variable
+        const users = savedUsers.map(user => { // 👈 Map the savedUsers array to a new array of objects with only the id and name properties
+            return new ListUserDto(user.id, user.name);
+        });
+        return users; // 👈 return users array
     }
 
 }
