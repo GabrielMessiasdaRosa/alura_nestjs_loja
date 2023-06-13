@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from "@nestjs/common";
+import { Body, Controller, Get, Post } from "@nestjs/common";
 import { UserService } from "./user.service";
 
 @Controller("/users") // 👈 Route path @Controller is a decorator that defines a controller that will handle requests for a specific route path.
@@ -17,6 +17,12 @@ export class UserController {
             body.email,
             body.password
         );  
+    }
+
+    @Get()
+    async getUsers() {
+        // get users
+        return this.userService.getUsers(); // 👈 Response 
     }
 
 }

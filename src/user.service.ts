@@ -10,4 +10,9 @@ export class UserService {
         this.users.push(user); // 👈 push user object to users array, this will be replaced with a database call in the next chapter
         return user; // 👈 return user object
     }
+
+    async getUsers() { // 👈 getUsers method
+        return this.users; // 👈 return users array
+    }
+
 }
