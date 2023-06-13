@@ -1,0 +1,22 @@
+import { Body, Controller, Post } from "@nestjs/common";
+import { UserService } from "./user.service";
+
+@Controller("/users") // 👈 Route path @Controller is a decorator that defines a controller that will handle requests for a specific route path.
+export class UserController {
+    private userService = new UserService(); // 👈 Create an instance of the UserService class
+
+    @Post() // 👈 Route handler @Post is a decorator that defines a route handler for POST requests to the route path defined by the @Controller decorator. 
+    async createUser(@Body() body: {
+        name: string;
+        email: string;
+        password: string;
+    }) {
+        // create user
+        return this.userService.createUser( // 👈 Response 
+            body.name,
+            body.email,
+            body.password
+        );  
+    }
+
+}
