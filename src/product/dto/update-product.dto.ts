@@ -1,18 +1,18 @@
-import { IsString, IsNotEmpty, IsOptional, IsNumber } from "class-validator";
+import { IsString, IsNotEmpty, IsOptional, IsNumber } from 'class-validator';
 
 export class UpdateProductDto {
-    @IsString()
-    @IsNotEmpty()
-    @IsOptional()
-    name: string;
+  @IsString()
+  @IsNotEmpty()
+  @IsOptional()
+  name: string;
 
-    @IsNumber()
-    @IsNotEmpty()
-    @IsOptional()
-    price: number;
+  @IsNumber()
+  @IsNotEmpty()
+  @IsOptional()
+  price: number;
 
-    @IsString()
-    @IsNotEmpty()
-    @IsOptional()
-    description: string;
+  @IsString()
+  @IsNotEmpty()
+  @IsOptional()
+  description: string;
 }

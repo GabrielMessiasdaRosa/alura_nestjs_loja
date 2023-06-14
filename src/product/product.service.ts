@@ -16,17 +16,21 @@ export class ProductService {
   }
 
   async updateProduct(id: string, body: Partial<CreateProductDto>) {
-    const productIndex = this.products.findIndex(product => product.id === id);
-    this.products[productIndex] = {...this.products[productIndex], ...body};
+    const productIndex = this.products.findIndex(
+      (product) => product.id === id,
+    );
+    this.products[productIndex] = { ...this.products[productIndex], ...body };
     return this.products[productIndex];
   }
 
   async deleteProduct(id: string) {
-    return this.products = this.products.filter(product => product.id !== id);
+    return (this.products = this.products.filter(
+      (product) => product.id !== id,
+    ));
   }
 
   async getProduct(id: string) {
-    const product = this.products.find(product => product.id === id);
+    const product = this.products.find((product) => product.id === id);
     return product;
   }
 }

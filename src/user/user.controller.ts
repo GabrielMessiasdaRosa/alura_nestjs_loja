@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserEntity } from './user.entity';
@@ -41,7 +49,8 @@ export class UserController {
   }
 
   @Put('/:id') // 👈 Route handler @Put is a decorator that defines a route handler for PUT requests to the route path defined by the @Controller decorator.
-  async updateUser(@Body() body: UpdateUserDto, @Param('id') id: string) { // 👈 Route handler method that accepts a UpdateUserDto object as the request body and the id parameter from the route path.
+  async updateUser(@Body() body: UpdateUserDto, @Param('id') id: string) {
+    // 👈 Route handler method that accepts a UpdateUserDto object as the request body and the id parameter from the route path.
     const updatedUser = await this.userService.updateUser(id, body);
 
     return {
@@ -51,10 +60,11 @@ export class UserController {
   }
 
   @Delete('/:id') // 👈 Route handler @Delete is a decorator that defines a route handler for DELETE requests to the route path defined by the @Controller decorator.
-  async deleteUser(@Param('id') id: string) { // 👈 Route handler method that accepts the id parameter from the route path.
+  async deleteUser(@Param('id') id: string) {
+    // 👈 Route handler method that accepts the id parameter from the route path.
     await this.userService.deleteUser(id);
     return {
       message: 'User deleted successfully',
     };
-  }  
+  }
 }
