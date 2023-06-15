@@ -3,7 +3,13 @@ import { ProductEntity } from './product.entity';
 
 @Entity({ name: 'product_images' })
 export class ProductImagesEntity {
-  @Column({ name: 'id', primary: true, type: 'uuid' })
+  @Column({
+    name: 'id',
+    primary: true,
+    type: 'uuid',
+    generated: 'uuid',
+    nullable: false,
+  })
   id: string;
 
   @Column({ name: 'url', nullable: false })

@@ -3,10 +3,16 @@ import { ProductEntity } from './product.entity';
 
 @Entity({ name: 'product_details' })
 export class ProductDetailsEntity {
-  @Column({ name: 'id', primary: true, type: 'uuid' })
+  @Column({
+    name: 'id',
+    primary: true,
+    type: 'uuid',
+    generated: 'uuid',
+    nullable: false,
+  })
   id: string;
 
-  @Column({ name: 'name', length: 50, nullable: false })
+  @Column({ name: 'name', length: 50 })
   name: string;
 
   @Column({ name: 'description', type: 'text', nullable: true })
