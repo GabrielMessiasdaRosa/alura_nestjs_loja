@@ -6,45 +6,64 @@ import { UserService } from './user.service';
 @Controller('/users') // 👈 Route path @Controller is a decorator that defines a controller that will handle requests for a specific route path.
 export class UserController {
   /*  private userService = new UserService(); */ // 👈 Create an instance of the UserService class
-
   constructor(private userService: UserService) {} // 👈 Dependency injection in the constructor to inject the UserService instance into the UserController class.
 
   @Get()
   async listUsers() {
-    // 👈 Route handler method that calls the listUsers method of the UserService class
-    const users: ListUserDto[] = await this.userService.listUsers();
-    return users;
+    try {
+      // 👈 Route handler method that calls the listUsers method of the UserService class
+      const users: ListUserDto[] = await this.userService.listUsers();
+      return users;
+    } catch (error) {
+      return error;
+    }
   }
 
   @Get(':id')
   async getUser(@Param('id') id: string): Promise<ListUserDto> {
     // 👈 Route handler method that calls the getUser method of the UserService class
-    const user: ListUserDto = await this.userService.getUser(id);
-    return user;
+    try {
+      const user: ListUserDto = await this.userService.getUser(id);
+      return user;
+    } catch (error) {
+      return error;
+    }
   }
 
   @Post()
   async createUser(@Body() body: CreateUserDto) {
-    await this.userService.createUser(body);
-    return {
-      message: `${body.name} created successfully`,
-    };
+    try {
+      await this.userService.createUser(body);
+      return {
+        message: `${body.name} created successfully`,
+      };
+    } catch (error) {
+      return error;
+    }
   }
 
   @Post(':id')
   async updateUser(@Param('id') id: string, @Body() body: UpdateUserDto) {
-    await this.userService.updateUser(id, body);
-    return {
-      message: `${body.name} updated successfully`,
-    };
+    try {
+      await this.userService.updateUser(id, body);
+      return {
+        message: `${body.name} updated successfully`,
+      };
+    } catch (error) {
+      return error;
+    }
   }
 
   @Delete(':id')
   async deleteUser(@Param('id') id: string) {
-    await this.userService.deleteUser(id);
-    return {
-      message: `User deleted successfully`,
-    };
+    try {
+      await this.userService.deleteUser(id);
+      return {
+        message: `User deleted successfully`,
+      };
+    } catch (error) {
+      return error;
+    }
   }
 
   /*  @Post() // 👈 Route handler @Post is a decorator that defines a route handler for POST requests to the route path defined by the @Controller decorator.
