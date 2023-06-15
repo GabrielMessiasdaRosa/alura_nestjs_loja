@@ -15,7 +15,7 @@ export class PostgresConfigService implements TypeOrmOptionsFactory { // 👈 Ty
       password: this.configService.get<string>('DB_PASSWORD'), // 👈 password is the password of the database.
       database: this.configService.get<string>('DB_NAME'), // 👈 database is the name of the database.
       entities: [__dirname + '/../**/*.entity{.ts,.js}'], // 👈 entities is an array of entities that are used by the database.
-      synchronize: false, // 👈 synchronize is a boolean that defines whether the database schema should be auto-generated based on the entities. This should be set to false in production.
+      synchronize: true, // 👈 synchronize is a boolean that defines whether the database schema should be auto-generated based on the entities. This should be set to false in production.
     };
   }
 }
