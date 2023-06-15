@@ -46,9 +46,4 @@ export class CreateProductDto {
   @IsNotEmpty()
   category: string;
 
-  @IsString()
-  createdAt: string;
-
-  @IsString()
-  updatedAt: string;
 }
