@@ -33,3 +33,9 @@ lerna-debug.log*
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+/.env
+# sensitive or environment-specific data
+.env
+.env.local
+.env.development.local
+.env.test.local

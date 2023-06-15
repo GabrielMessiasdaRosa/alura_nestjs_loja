@@ -1,16 +1,12 @@
 import { Type } from 'class-transformer';
 import {
-  IsString,
-  IsNumber,
   IsArray,
-  ValidateNested,
-  IsDate,
   IsNotEmpty,
+  IsNumber,
   IsPositive,
-  IsDecimal,
-  MaxLength,
+  IsString,
   Length,
-  MinLength,
+  ValidateNested,
 } from 'class-validator';
 import { ProductDetailsDto } from './product-details.dto';
 import { ProductImagesDto } from './product-images.dto';
@@ -45,10 +41,4 @@ export class CreateProductDto {
   @IsString()
   @IsNotEmpty()
   category: string;
-
-  @IsString()
-  createdAt: string;
-
-  @IsString()
-  updatedAt: string;
 }
