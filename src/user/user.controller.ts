@@ -1,25 +1,53 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Put,
-} from '@nestjs/common';
-import { UserService } from './user.service';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UserEntity } from './user.entity';
-import { v4 as uuid } from 'uuid';
 import { ListUserDto } from './dto/list-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UserService } from './user.service';
 @Controller('/users') // 👈 Route path @Controller is a decorator that defines a controller that will handle requests for a specific route path.
 export class UserController {
   /*  private userService = new UserService(); */ // 👈 Create an instance of the UserService class
 
   constructor(private userService: UserService) {} // 👈 Dependency injection in the constructor to inject the UserService instance into the UserController class.
 
-  @Post() // 👈 Route handler @Post is a decorator that defines a route handler for POST requests to the route path defined by the @Controller decorator.
+  @Get()
+  async listUsers() {
+    // 👈 Route handler method that calls the listUsers method of the UserService class
+    const users: ListUserDto[] = await this.userService.listUsers();
+    return users;
+  }
+
+  @Get(':id')
+  async getUser(@Param('id') id: string): Promise<ListUserDto> {
+    // 👈 Route handler method that calls the getUser method of the UserService class
+    const user: ListUserDto = await this.userService.getUser(id);
+    return user;
+  }
+
+  @Post()
+  async createUser(@Body() body: CreateUserDto) {
+    await this.userService.createUser(body);
+    return {
+      message: `${body.name} created successfully`,
+    };
+  }
+
+  @Post(':id')
+  async updateUser(@Param('id') id: string, @Body() body: UpdateUserDto) {
+    await this.userService.updateUser(id, body);
+    return {
+      message: `${body.name} updated successfully`,
+    };
+  }
+
+  @Delete(':id')
+  async deleteUser(@Param('id') id: string) {
+    await this.userService.deleteUser(id);
+    return {
+      message: `User deleted successfully`,
+    };
+  }
+
+  /*  @Post() // 👈 Route handler @Post is a decorator that defines a route handler for POST requests to the route path defined by the @Controller decorator.
   async createUser(@Body() body: CreateUserDto) {
     // 👈 Route handler method that accepts a CreateUserDto object as the request body.
     // create user
@@ -38,7 +66,7 @@ export class UserController {
     };
   }
 
-  @Get()
+  @Get() // 👈 Route handler @Get is a decorator that defines a route handler for GET requests to the route path defined by the @Controller decorator.
   async getUsers() {
     const savedUsers = await this.userService.getUsers(); // 👈 Call the getUsers method of the UserService class and assign the result to the savedUsers variable
     const users = savedUsers.map((user) => {
@@ -66,5 +94,5 @@ export class UserController {
     return {
       message: 'User deleted successfully',
     };
-  }
+  } */
 }
