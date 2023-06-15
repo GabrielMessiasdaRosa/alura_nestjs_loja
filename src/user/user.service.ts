@@ -1,9 +1,76 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { CreateUserDto } from './dto/create-user.dto';
+import { ListUserDto } from './dto/list-user.dto';
 import { UserEntity } from './user.entity';
 
 @Injectable() // 👈 Injectable decorator is a class decorator that defines a service, a service is a class that contains business logic and is instantiated within a module.
 export class UserService {
-  private users: UserEntity[] = []; // 👈 users array memory storage
+  constructor(
+    @InjectRepository(UserEntity) // 👈 InjectRepository decorator is a parameter decorator that injects a repository into a service
+    private readonly userRepository: Repository<UserEntity>, // 👈 injects the UserEntity repository
+  ) {} // 👈 constructor is a method that is called when a class is instantiated
+
+  async listUsers(): Promise<ListUserDto[]> {
+    // 👈 listUsers method
+    const users = await this.userRepository.find(); // 👈 find all users, .find() is a typeorm method that returns all users
+    const usersList: ListUserDto[] = users.map((user) => {
+      // 👈 map over users and return a new array of ListUserDto objects
+      const userDto = new ListUserDto(user.id, user.name);
+      return userDto;
+    });
+    return usersList;
+  }
+
+  async getUser(id: string): Promise<ListUserDto> {
+    // 👈 getUser method
+    const user = await this.userRepository.findOneBy({ id }); // 👈 find user by id, .findOne() is a typeorm method that returns a single user
+    if (!user) {
+      throw new NotFoundException(`User with id ${id} not found`); // 👈 throw a NotFoundException if user is not found
+    }
+    const userDto = new ListUserDto(user.id, user.name); // 👈 create a new ListUserDto object with the id and name properties of the user object
+    return userDto;
+  }
+
+  async createUser(user: CreateUserDto): Promise<void> {
+    const newUser = new UserEntity(); // 👈 create a new UserEntity object
+    newUser.name = user.name; // 👈 set the name property of the newUser object to the name property of the CreateUserDto object
+    newUser.email = user.email; // 👈 set the email property of the newUser object to the email property of the CreateUserDto object
+    newUser.password = user.password; // 👈 set the password property of the newUser object to the password property of the CreateUserDto object
+    await this.userRepository.save(newUser); // 👈 save newUser to database
+    return;
+  }
+
+  async updateUser(
+    id: string,
+    userPayload: Partial<UserEntity>,
+  ): Promise<void> {
+    // 👈 updateUser method
+    const user = await this.getUser(id);
+    if (!user) {
+      throw new NotFoundException(`User with id ${id} not found`); // 👈 throw a NotFoundException if user is not found
+    }
+    await this.userRepository.update(id, userPayload); // 👈 update user with id with user object
+    return;
+  }
+
+  async deleteUser(id: string): Promise<void> {
+    // 👈 deleteUser method
+    const user = await this.getUser(id);
+    if (!user) {
+      throw new NotFoundException(`User with id ${id} not found`); // 👈 throw a NotFoundException if user is not found
+    }
+    await this.userRepository.delete(id); // 👈 delete user with id
+    return;
+  }
+
+  async emailAlreadyExists(email: UserEntity['email']): Promise<boolean> {
+    const user = await this.userRepository.findOne({ where: { email } }); // 👈 find user by email
+    return !!user; // 👈 return true if user exists
+  }
+
+  /*   private users: UserEntity[] = []; // 👈 users array memory storage
 
   async createUser(user: UserEntity) {
     // 👈 createUser method that accepts name, email, and password
@@ -30,5 +97,5 @@ export class UserService {
   async deleteUser(id: string) {
     // 👈 deleteUser method
     return (this.users = this.users.filter((user) => user.id !== id)); // 👈 filter out user with id
-  }
+  } */
 }

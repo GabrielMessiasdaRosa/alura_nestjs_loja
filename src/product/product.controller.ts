@@ -7,16 +7,74 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { ProductEntity } from './product.entity';
-import { v4 as uuid } from 'uuid';
+import { ProductService } from './product.service';
 
 @Controller('/products')
 export class ProductController {
   constructor(private productService: ProductService) {}
 
+  @Get()
+  async getProducts() {
+    try {
+      const products = await this.productService.getProducts();
+      return {
+        data: products,
+        message: 'Products retrieved successfully',
+      };
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @Get('/:id')
+  async getProduct(@Param('id') id: string) {
+    try {
+      const product = await this.productService.getProduct(id);
+      return {
+        data: product,
+        message: 'Product retrieved successfully',
+      };
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @Post()
+  async createProduct(@Body() body: CreateProductDto) {
+    try {
+      const newProduct = await this.productService.createProduct(body);
+      return {
+        data: newProduct,
+        message: 'Product created successfully',
+      };
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @Put('/:id')
+  async updateProduct(@Body() body: UpdateProductDto, @Param('id') id: string) {
+    try {
+      const product = await this.productService.updateProduct(id, body);
+      return { data: product, message: 'Product updated successfully' };
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @Delete('/:id')
+  async deleteProduct(@Param('id') id: string) {
+    try {
+      const product = await this.productService.deleteProduct(id);
+      return { data: product, message: 'Product deleted successfully' };
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  /* 
   @Get()
   async getProducts() {
     return this.productService.getProducts();
@@ -60,5 +118,5 @@ export class ProductController {
   @Delete('/:id')
   async deleteProduct(@Param('id') id: string) {
     return this.productService.deleteProduct(id);
-  }
+  } */
 }
