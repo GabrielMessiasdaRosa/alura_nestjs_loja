@@ -33,10 +33,16 @@ export class ProductEntity {
   @Column({ name: 'description', type: 'text', nullable: false })
   description: string;
 
-  @OneToMany(() => ProductDetailsEntity, (details) => details.product)
+  @OneToMany(() => ProductDetailsEntity, (details) => details.product, {
+    cascade: true,
+    eager: true,
+  })
   details: ProductDetailsEntity[];
 
-  @OneToMany(() => ProductDetailsEntity, (image) => image.product)
+  @OneToMany(() => ProductDetailsEntity, (image) => image.product, {
+    cascade: true,
+    eager: true,
+  })
   images: ProductImagesEntity[];
 
   @Column({ name: 'category', type: 'varchar', length: 50, nullable: false })

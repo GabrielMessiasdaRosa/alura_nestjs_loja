@@ -12,6 +12,10 @@ export class ProductDetailsEntity {
   @Column({ name: 'description', type: 'text', nullable: true })
   description: string;
 
-  @ManyToOne(() => ProductEntity, (product) => product.details)
+  @ManyToOne(() => ProductEntity, (product) => product.details, {
+    orphanedRowAction: 'delete',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   product: ProductEntity;
 }
